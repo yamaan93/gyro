@@ -38,7 +38,14 @@ values[i] = Wire.read();
 i++;
 }
 Wire.endTransmission();
+x =(((int)values[1]) <<8) | values[0];
+y =(((int)values[3])<<8) | values[2];
+z =(((int)values[5]) <<8) | values[4];
 
+sprintf(output,"%d %d %d",x ,y,z);
+Serial.print(output);
+Serial.write(10);
 
+delay(1000);
 }
 
