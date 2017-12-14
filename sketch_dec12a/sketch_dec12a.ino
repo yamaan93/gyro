@@ -21,10 +21,9 @@ void setup(){
   }
 
 void loop(){
-    
+  
 int xyzregister = 0x32;
 int x, y, z;
-
 Wire.beginTransmission(accel_module);
 Wire.write(xyzregister);
 Wire.endTransmission();
