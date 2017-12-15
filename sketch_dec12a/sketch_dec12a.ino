@@ -10,10 +10,10 @@ int zCal;
 int calX;
 int calY;
 int calZ;
-int x, y, z;
+
 // variables will change:
 int buttonState = 0;         // variable for reading the pushbutton status
-void setup(){
+void setup() {
   Wire.begin();
   Serial.begin(9600);
   Wire.beginTransmission(accel_module);
@@ -28,52 +28,53 @@ void setup(){
   Wire.write(0x2D);
   Wire.write(8);
   Wire.endTransmission();
-  pinMode(ledPin,OUTPUT);
-  pinMode(buttonPin, INPUT); 
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+}
+
+
+
+void loop() {
+  int x, y, z;
+  int xyzregister = 0x32;
+
+  Wire.beginTransmission(accel_module);
+  Wire.write(xyzregister);
+  Wire.endTransmission();
+
+  Wire.beginTransmission(accel_module);
+  Wire.requestFrom(accel_module, 6);
+
+  int i = 0;
+  while (Wire.available()) {
+    values[i] = Wire.read();
+    i++;
   }
-  
-  
+  Wire.endTransmission();
+  x = (((int)values[1]) << 8) | values[0];
+  y = (((int)values[3]) << 8) | values[2];
+  z = (((int)values[5]) << 8) | values[4];
 
-void loop(){
-  
-int xyzregister = 0x32;
-
-Wire.beginTransmission(accel_module);
-Wire.write(xyzregister);
-Wire.endTransmission();
-
-Wire.beginTransmission(accel_module);
-Wire.requestFrom(accel_module, 6);
-
-int i = 0;
-while(Wire.available()){
-values[i] = Wire.read();
-i++;
+  sprintf(output, "%d %d %d %d", x , y, z, buttonState);
+  Serial.print(output);
+  Serial.write(10);
+  buttonState = digitalRead(buttonPin);
+  if ( buttonState == 1) {
+    digitalWrite(ledPin, 1);
+//  cal();
+  }
+  else {
+    digitalWrite(ledPin, 0);
+  }
+  delay(1000);
 }
-Wire.endTransmission();
-x =(((int)values[1]) <<8) | values[0];
-y =(((int)values[3])<<8) | values[2];
-z =(((int)values[5]) <<8) | values[4];
-
-sprintf(output,"%d %d %d %d",calX ,calY,calZ,buttonState);
-Serial.print(output);
-Serial.write(10);
-buttonState = digitalRead(buttonPin);
-if( buttonState == 1){
-  digitalWrite(ledPin,1);
+/*void cal() { 
+  xCal = x;
   
-}
-else{
-    digitalWrite(ledPin,0);
-}
-delay(1000);
-}
-void cal(){
- xCal = x;
- calX = x-xCal;
   yCal = y;
- calY = y-yCal;
+
   zCal = z;
- calZ = z-zCal;
-}
+
+} 
+*/
 
