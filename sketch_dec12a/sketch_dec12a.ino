@@ -2,7 +2,7 @@
 #define accel_module (0x53)
 byte values[6];
 char output[512];
-
+           
 void setup() {
   Wire.begin();
   Serial.begin(9600);
@@ -42,11 +42,21 @@ void loop() {
   Wire.endTransmission();
   x = (((int)values[1]) << 8) | values[0];
   y = (((int)values[3]) << 8) | values[2];
+  /*Serial.print((int) values[3]);
+  Serial.print("   ");
+  Serial.print(((int)values[3]) << 8);
+  Serial.print("   ");
+  Serial.print(values[2]);
+  Serial.print("   ");
+  Serial.print(y);
+  Serial.println();*/
   z = (((int)values[5]) << 8) | values[4];
 
-  sprintf(output, "%d %d %d", x , y, z);
-  Serial.print(output);
-  Serial.write(10);
+  Serial.println(255 << 8);
+  
+  //sprintf(output, "%d %d %d", x , y, z);
+  //Serial.print(output);
+  //Serial.write(10);
 
   delay(1000);
 }
