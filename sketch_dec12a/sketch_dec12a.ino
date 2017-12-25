@@ -1,20 +1,21 @@
 #include <Wire.h>
-#define accel_module (0x53)
+#define accel module (0x53)
 byte values[6];
 char output[512];
            
 void setup() {
   Wire.begin();
   Serial.begin(9600);
+
   Wire.beginTransmission(accel_module);
   Wire.write(0x2D);
   Wire.write(0);
   Wire.endTransmission();
-  Wire.beginTransmission(accel_module);
+  Wire.beginTransmission();
   Wire.write(0x2D);
   Wire.write(16);
   Wire.endTransmission();
-  Wire.beginTransmission(accel_module);
+  Wire.beginTransmission();
   Wire.write(0x2D);
   Wire.write(8);
   Wire.endTransmission();
