@@ -42,31 +42,21 @@ void loop() {
   Wire.endTransmission();
   x = (((int)values[1]) << 8) | values[0];
   y = (((int)values[3]) << 8) | values[2];
-  /*Serial.print((int) values[3]);
+  Serial.print((int) values[3]);
   Serial.print("   ");
   Serial.print(((int)values[3]) << 8);
   Serial.print("   ");
   Serial.print(values[2]);
   Serial.print("   ");
   Serial.print(y);
-  Serial.println();*/
+  Serial.println();
   z = (((int)values[5]) << 8) | values[4];
 
-  Serial.println(255 << 8);
-  
-  //sprintf(output, "%d %d %d", x , y, z);
-  //Serial.print(output);
-  //Serial.write(10);
+  sprintf(output, "%d %d %d", x , y, z);
+  Serial.print(output);
+  Serial.write(10);
 
   delay(1000);
 }
-/*void cal() { 
-  xCal = x;
-  
-  yCal = y;
 
-  zCal = z;
-
-} 
-*/
 
